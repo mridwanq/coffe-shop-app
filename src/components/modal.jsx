@@ -12,11 +12,11 @@ import {
 } from "@chakra-ui/react";
 import defaultImage from "../assets/default-image.jpg";
 import { useEffect, useState } from "react";
-import { api } from "../API/api";
+import { api } from "../api/axios";
 export const ModalInputProduct = ({ isOpen, onClose, fetchProducts, id }) => {
   const [data, setData] = useState({
-    imageName: "",
-    productName: "",
+    imageName: '',
+    productName: '',
     price: 0,
   });
 
@@ -34,8 +34,8 @@ export const ModalInputProduct = ({ isOpen, onClose, fetchProducts, id }) => {
   }, [isOpen]);
 
   const inputHandler = (e) => {
-    if (e.target.id == "price") {
-      const price = e.target.value.replace(/[,.]/g, "");
+    if (e.target.id == 'price') {
+      const price = e.target.value.replace(/[,.]/g, '');
       if (isNaN(price)) return setData({ ...data, [e.target.id]: 0 });
       else {
         return setData({
@@ -52,8 +52,8 @@ export const ModalInputProduct = ({ isOpen, onClose, fetchProducts, id }) => {
 
   const clear = () => {
     setData({
-      imageName: "",
-      productName: "",
+      imageName: '',
+      productName: '',
       price: 0,
     });
   };
@@ -64,7 +64,7 @@ export const ModalInputProduct = ({ isOpen, onClose, fetchProducts, id }) => {
       if (id) {
         await api.patch(`/products/${id}`, data);
       } else {
-        await api.post("/products", data);
+        await api.post('/products', data);
         clear();
       }
       fetchProducts();
@@ -92,34 +92,34 @@ export const ModalInputProduct = ({ isOpen, onClose, fetchProducts, id }) => {
         <ModalCloseButton />
         <form onSubmit={submit}>
           <ModalBody>
-            <Center flexDir="column" gap={"15px"}>
+            <Center flexDir='column' gap={'15px'}>
               <img
                 src={data?.imageName ? data?.imageName : defaultImage}
-                width={"201px"}
-                height={"143px"}
-                alt="isi dengan gambar"
+                width={'201px'}
+                height={'143px'}
+                alt='isi dengan gambar'
               ></img>
               <Input
-                id="imageName"
-                placeholder="Image URL"
-                maxW="300px"
+                id='imageName'
+                placeholder='Image URL'
+                maxW='300px'
                 defaultValue={data?.imageName}
                 onChange={inputHandler}
                 required
-                type="url"
+                type='url'
               ></Input>
               <Input
-                id="productName"
-                placeholder="Product Name"
-                maxW="300px"
+                id='productName'
+                placeholder='Product Name'
+                maxW='300px'
                 defaultValue={data?.productName}
                 onChange={inputHandler}
                 required
               ></Input>
               <Input
-                id="price"
-                placeholder="Product Price"
-                maxW="300px"
+                id='price'
+                placeholder='Product Price'
+                maxW='300px'
                 defaultValue={data?.price}
                 value={data?.price}
                 onChange={inputHandler}
@@ -129,11 +129,11 @@ export const ModalInputProduct = ({ isOpen, onClose, fetchProducts, id }) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button type="submit" colorScheme="green" mr={3}>
+            <Button type='submit' colorScheme='green' mr={3}>
               Submit
             </Button>
             {id ? (
-              <Button type="button" colorScheme="red" mr={3} onClick={remove}>
+              <Button type='button' colorScheme='red' mr={3} onClick={remove}>
                 Delete
               </Button>
             ) : null}
