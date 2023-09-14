@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 
 export const Login = () => {
-  const dispatch = useDispatch();
   const nav = useNavigate();
+  const dispatch = useDispatch();
   const toast = useToast();
   const userSelector = useSelector((state) => state.auth);
   const [seePassword, setSeePassword] = useState(false);
@@ -45,28 +45,35 @@ export const Login = () => {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
-      password: "",
+      username: null,
+      password: null,
     },
     validationSchema: Yup.object().shape({
       username: Yup.string().required(),
       password: Yup.string().required(),
     }),
     onSubmit: async (values) => {
+      if (!values.username || !values.password) {
+        return toastError("Error Login", "please fill the form");
+      }
       toastProcessing();
       await dispatch(userLogin(values))
         .then((result) => {
+          console.log(result);
           if (result === 1) {
             toastSuccess("Login success");
-            nav(`/admin/landing_page`);
+            nav(`/account_management`);
           } else if (result === 2) {
             toastSuccess("Login success");
             nav(`/cashier/landing_page`);
           } else {
-            toastError("Login failed");
+            toastError("Login failed", result.response?.data);
           }
         })
-        .catch((err) => toastError("Login failed", err?.response?.message));
+        .catch((err) => {
+          console.log(err);
+          toastError("Login failed", err?.response?.data);
+        });
     },
   });
   useEffect(() => {

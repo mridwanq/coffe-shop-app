@@ -1,5 +1,6 @@
 import { AdminLandingPage } from "../pages/Adminpages/AdminLandingPage";
 import { CashierAccountManagement } from "../pages/Adminpages/CashierAccountManagement";
+import { CashierLandingPage } from "../pages/CashierPages/CashierLandingPage";
 import { Login } from "../pages/Login";
 import { Redirect } from "../pages/Redirect";
 import { ProtectedPage } from "./ProtectedPage";
@@ -27,6 +28,23 @@ export const routes = [
     (
       <ProtectedPage needLogin={true} AdminOnly={true}>
         <CashierAccountManagement />
+      </ProtectedPage>
+    )
+  ),
+  new RouteClass(
+    "/cashier/landing_page",
+    (
+      <ProtectedPage needLogin={true}>
+        <CashierLandingPage />
+      </ProtectedPage>
+    )
+  ),
+
+  new RouteClass(
+    "/dashboard",
+    (
+      <ProtectedPage needLogin={true} AdminOnly={true}>
+        <AdminLandingPage />
       </ProtectedPage>
     )
   ),
